@@ -1,0 +1,14 @@
+FROM node:alpine3.24 As build
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --only=production
+
+FROM node:alpine3.24
+WORKDIR /app
+COPY --from=build /app/node_modules ./
+COPY server.js ./
+COPY package.json ./ 
+EXPOSE 8080
+ENTRYPOINT ["node"]
+CMD ["server.js", "development"]
+
