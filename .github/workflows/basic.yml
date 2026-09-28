@@ -1,0 +1,12 @@
+name: Basic Github pipeline
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  basic:
+    runs-on: ["wsl-linux"]
+    steps:
+      - name: print a staetment
+        run: echo "basic github pipeline successful"
