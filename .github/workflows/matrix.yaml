@@ -3,32 +3,31 @@ name: Matrix Pipeline
 on:
   push:
     branches: ["main"]
-  workflow_dispatch:  
+  workflow_dispatch:
 
 jobs:
   node:
-    runs-on: ["wsl-linux"]
+    runs-on: wsl-linux
     strategy:
       matrix:
-       node-version: [24,26]
-       
+        node-version: [24, 26]
+
     steps:
-      - name: checkout code
-        users: actions/checkout@v7
-        
+      - name: Checkout code
+        uses: actions/checkout@v7
 
       - name: Setup Node
-        users: actions/setup-node
-       with:
-          node-version: ${{matrix.node-version}}
-          
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
       - name: Install packages
         run: npm install
 
       - name: Run application
-        run: 
-               node server.js &
-               sleep 5
-               curl http://localhost:8080
-               curl http://localhost:8080/health
-               pkill -f "server.js"
+        run: |
+          node server.js &
+          sleep 5
+          curl http://localhost:8080
+          curl http://localhost:8080/health
+          pkill -f "node server.js" || true
