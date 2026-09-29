@@ -1,0 +1,40 @@
+name: Node Pipeline with Inputs
+
+on:
+ workflow_dispatach:
+  inputs:
+   environment: 
+    description: select the environment
+    required: true
+    default: "development"
+    type: choice
+    options:
+       - development
+       - production
+  port:
+    description: select the port
+    required: true
+    default: "8080"
+
+jobs:
+  node:
+    runs-on: ["wsl-linux"]
+    steps:
+      - name: checkout code
+        users: actions/checkout@v7
+
+      - name: Setup Node
+        users: actions/setup-node
+       with:
+          node-version:24
+          
+      - name: Install packages
+        run: npm install
+
+      - name: Run application
+        run: 
+               node server.js ${{.github.event.inputs.environment }} &
+               sleep 5
+               curl http://localhost: ${{.github.event.inputs.port }}
+               curl http://localhost: ${{.github.event.inputs.port }}/health
+               pkill -f "server.js"
