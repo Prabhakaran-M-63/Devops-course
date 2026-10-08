@@ -29,7 +29,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 20 # Using a stable LTS version for reliability
 
       - name: Install packages
         run: npm install
@@ -40,4 +40,4 @@ jobs:
           sleep 5
           curl http://localhost:${{ github.event.inputs.port }}
           curl http://localhost:${{ github.event.inputs.port }}/health
-          pkill -f "node server.js ${{ github.event.inputs.environment }}"
+          pkill -f "node server.js ${{ github.event.inputs.environment }}" || true
