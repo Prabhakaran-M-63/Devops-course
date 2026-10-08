@@ -1,8 +1,10 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const path = require('path'); // 1. Add the path module
 
 const env = process.argv[2] || "development";
-dotenv.config({ path: `.env.${env}` });
+// 2. Use path.resolve to guarantee Node finds the file no matter where the script is called from
+dotenv.config({ path: path.resolve(__dirname, `.env.${env}`) });
 
 function log(message) {
     const time = new Date().toISOString();
@@ -11,11 +13,12 @@ function log(message) {
 
 const app = express();
 
-const PORT = process.env.PORT;
-const APP = process.env.APP;
+// 3. Convert the port to a Number and add a fallback (8080) if env parsing fails
+const PORT = Number(process.env.PORT) || 8080;
+const APP = process.env.APP || "DEVELOPMENT";
 
 app.get('/', (req, res) => {
-  res.send('Hello World' + APP);
+  res.send('Hello World ' + APP);
 });
 
 app.get('/health', (req, res) => {
@@ -26,5 +29,6 @@ app.get('/health', (req, res) => {
 });
 
 app.listen(PORT, () => {
-   log("Server running on port" + PORT);
+   log("Server running on port " + PORT); // Added a space after 'port' for cleaner logs
 });
+
