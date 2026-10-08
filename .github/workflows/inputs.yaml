@@ -40,4 +40,4 @@ jobs:
           sleep 5
           curl http://localhost:${{ github.event.inputs.port }}
           curl http://localhost:${{ github.event.inputs.port }}/health
-          pkill -f "node server.js" ${{ github.event.inputs.environment }}"
+          pkill -f "node server.js ${{ github.event.inputs.environment }}"
