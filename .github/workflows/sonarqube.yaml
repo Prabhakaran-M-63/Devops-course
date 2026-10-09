@@ -2,23 +2,23 @@ name: Sonarqube pipeline
 
 on:
   pull_request:
-    branches:
-      - main
+    branches: ["main"]
   workflow_dispatch:
 
 jobs:
   sonarqube:
-    runs-on: wsl-linux
+    runs-on: ["wsl-linux"]
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Sonarqube analysis
-        uses: SonarSource/sonarqube-scan-action@v5
+        uses: SonarSource/sonarqube-scan-action@v8
         with:
           args: >
-            -Dsonar.projectKey=NodeApp
-            -Dsonar.sources=.
-            -Dsonar.host.url=http://localhost:9000
-            -Dsonar.token=sqp_4bc5ddaf0cba009f3bd57cb22c32e2a813b3b57d
+            sonar-scanner \
+              -Dsonar.projectKey=NodeApp \
+              -Dsonar.sources=. \
+              -Dsonar.host.url=http://localhost:9000 \
+              -Dsonar.token=sqp_4bc5ddaf0cba009f3bd57cb22c32e2a813b3b57d
