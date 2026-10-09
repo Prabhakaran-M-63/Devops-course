@@ -13,7 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Uses Docker/Podman to run the scanner, completely bypassing the missing 'unzip' on the host machine
+      # This runs the scanner inside a container where unzip is already installed!
       - name: Sonarqube analysis via Container
         run: |
           docker run --rm \
