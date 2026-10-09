@@ -22,5 +22,5 @@ jobs:
             docker.io/sonarsource/sonar-scanner-cli:latest \
             -Dsonar.projectKey=NodeApp \
             -Dsonar.sources=. \
-            -Dsonar.host.url=http://localhost:9000 \
-            -Dsonar.token=sqp_4bc5ddaf0cba009f3bd57cb22c32e2a813b3b57d
+            -Dsonar.host.url= ${{ vars.SONAR_HOST_URL }} \
+            -Dsonar.token=${{ secrets.SONAR_TOKEN }}
