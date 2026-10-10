@@ -1,0 +1,25 @@
+# Stage 1: Build stage
+FROM node:alpine3.24 AS build
+
+WORKDIR /app
+
+COPY package.json ./
+
+RUN npm install
+
+# Stage 2: Minimal Distroless runtime stage
+FROM gcr.io/distroless/nodejs26-debian13 
+
+WORKDIR /app
+
+# Fixed missing space, flag syntax, and target destination path
+COPY --from=build /app/node_modules ./node_modules
+COPY package.json ./
+COPY server.js ./
+
+EXPOSE 8080
+
+# Distroless has an implicit ENTRYPOINT ["node"]. 
+# Passing these arguments allows it to effectively run: node server.js development
+CMD ["server.js", "development"]
+
