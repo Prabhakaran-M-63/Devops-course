@@ -7,7 +7,7 @@ on:
 
 jobs:
   docker:
-    runs-on: ["wsl-linux"] # Recommended default, or change back to "ws1l-linux" if using a custom runner
+    runs-on: ubuntu-latest  # Changed from wsl-linux to standard GitHub runner for testing
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
